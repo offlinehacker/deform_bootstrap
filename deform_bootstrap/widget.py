@@ -192,3 +192,25 @@ class ChosenMultipleWidget(SelectWidget):
         if isinstance(pstruct, STRING_TYPES):
             return (pstruct,)
         return tuple(pstruct)
+
+
+class TagsManagerWidget(SelectWidget):
+    template = 'tags_manager'
+    values = ()
+    options = {}
+    size = 1
+    requirements = (('tags_manager', None), )
+
+    def serialize(self, field, cstruct, readonly=False):
+        if cstruct in (null, None):
+            cstruct = ()
+        template = readonly and self.readonly_template or self.template
+        return field.renderer(template, field=field,
+                              cstruct=cstruct or '',
+                              options=json.dumps(self.options)[1:-1])
+
+    def deserialize(self, field, pstruct):
+        if pstruct is null:
+            return null
+
+        return tuple(pstruct.split(","))

@@ -283,3 +283,22 @@ class TestChosenMultipleWidget(unittest.TestCase):
         field = DummyField(schema, renderer=renderer)
         self.assertEqual(widget.deserialize(field, ['abc', 'def']),
                          ('abc', 'def'))
+
+
+class TestTagsManagerWidget(unittest.TestCase):
+    def _makeOne(self, **kw):
+        from deform_bootstrap.widget import TagsManagerWidget
+        return TagsManagerWidget(**kw)
+
+    def test_serialize_null(self):
+        from colander import null
+        widget = self._makeOne()
+        renderer = DummyRenderer()
+        schema = DummySchema()
+        field = DummyField(schema, renderer=renderer)
+        widget.serialize(field, null)
+        self.assertEqual(renderer.template, widget.template)
+        self.assertEqual(renderer.kw['field'], field)
+        self.assertEqual(renderer.kw['cstruct'], ())
+
+

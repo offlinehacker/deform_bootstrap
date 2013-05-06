@@ -1,0 +1,21 @@
+<div i18n:domain="deform" tal:omit-tag="">
+ <input type="text" 
+        id="${field.oid}"
+        name="${field.name}_controler"
+        class="input-medium tagManager"
+        data-items="6"
+        tal:attributes="placeholder getattr(field.widget, 'placeholder', nothing)"/>
+
+  <script type="text/javascript">
+    deform.addCallback(
+        '${field.oid}',
+        function(oid) {
+          $('#' + oid).tagsManager({
+            hiddenTagListName: '${field.name}',
+            prefilled: '${cstruct}',
+            ${options}
+          });
+        }
+    );
+  </script>
+</div>
