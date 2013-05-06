@@ -1,11 +1,9 @@
 default_resources = {
         "chosen":{None:{'js':("jquery_chosen/chosen.jquery.js",),
                         'css':("jquery_chosen/chosen.css",
-                                "chosen_bootstrap.css",)}
-        },
-        "tags_manager":{None:{'js':'bootstrap-tagmanager.js',
-                              'css':'bootstrap-tagmanager.css'
-        }},
-        "bootstrap":{None:{'js':'bootstrap.min.js',
-                           'css':'deform_bootstrap.css'}},
+                                "chosen_bootstrap.css",)}},
+        "tags_manager":{None:{'js':('bootstrap-tagmanager.js',),
+                              'css':('bootstrap-tagmanager.css',)}},
+        "bootstrap":{None:{'js':('bootstrap.min.js',),
+                           'css':('deform_bootstrap.css',)}},
 }
