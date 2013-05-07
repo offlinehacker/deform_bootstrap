@@ -4,7 +4,10 @@
         name="${field.name}_controler"
         class="input-medium tagManager"
         data-items="6"
-        tal:attributes="placeholder getattr(field.widget, 'placeholder', nothing)"/>
+        data-provide="typeahead"
+        autocomplete="off"
+        tal:attributes="size field.widget.size;
+                        placeholder getattr(field.widget, 'placeholder', nothing)"/>
 
   <script type="text/javascript">
     deform.addCallback(

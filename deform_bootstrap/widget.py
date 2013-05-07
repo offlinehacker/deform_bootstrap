@@ -204,6 +204,18 @@ class TagsManagerWidget(SelectWidget):
     def serialize(self, field, cstruct, readonly=False):
         if cstruct in (null, None):
             cstruct = ()
+
+        if isinstance(self.values, STRING_TYPES):
+            url = self.values
+            source = (
+                'function (query, process){$.getJSON("%s", {"term": query}, process);}'
+                % (url))
+        else:
+            source = self.values
+
+        self.options["typeahead"] = True
+        self.options["typeaheadSource"] = source
+
         template = readonly and self.readonly_template or self.template
         return field.renderer(template, field=field,
                               cstruct=cstruct or '',
