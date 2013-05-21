@@ -1,6 +1,7 @@
 import json
 from colander import null, Invalid
 from deform.i18n import _
+from deform.widget import MappingWidget
 from deform.widget import AutocompleteInputWidget
 from deform.widget import DateTimeInputWidget as DateTimeInputWidgetBase
 from deform.widget import SelectWidget
@@ -218,7 +219,7 @@ class TagsManagerWidget(SelectWidget):
 
         template = readonly and self.readonly_template or self.template
         return field.renderer(template, field=field,
-                              cstruct=cstruct or '',
+                              cstruct=json.dumps(list(cstruct or [])),
                               options=json.dumps(self.options)[1:-1])
 
     def deserialize(self, field, pstruct):
@@ -226,3 +227,7 @@ class TagsManagerWidget(SelectWidget):
             return null
 
         return tuple(pstruct.split(","))
+
+
+class BootstrapMappingWidget(MappingWidget):
+    tab = False

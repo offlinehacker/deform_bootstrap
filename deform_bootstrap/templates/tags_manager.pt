@@ -15,7 +15,7 @@
         function(oid) {
           $('#' + oid).tagsManager({
             hiddenTagListName: '${field.name}',
-            prefilled: '${cstruct}',
+            prefilled: ${cstruct},
             ${options}
           });
         }

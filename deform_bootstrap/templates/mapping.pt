@@ -2,7 +2,7 @@
 
   <input type="hidden" name="__start__" value="${field.name}:mapping"/>
 
-  <legend tal:condition="field.title">${field.title}</legend>
+  <legend id="${field.oid}_title" tal:condition="field.title">${field.title}</legend>
 
   <div class="clearfix alert alert-message error" tal:condition="field.errormsg">
     <p i18n:translate="">
@@ -15,7 +15,50 @@
     ${field.description}
   </div>
 
+  <span tal:condition="hasattr(field.widget,'tab') and field.widget.tab" tal:omit-tag="">
+    <div class="dropdown" style="bottom: 15px">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        Select ${field.title} type<b class="caret"></b>
+      </a> 
+      <ul id="${field.oid}" class="dropdown-menu">
+        <li tal:repeat="f field.children"
+            tal:attributes="class 'active' if repeat.f.start else nothing">
+          <a id="${f.oid}_copy" href="#${f.oid}_toggle" data-toggle="tab"
+             tal:define="title f.widget.menu_title|f.title|None"
+             tal:content="title"/>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tab-content">
+      <div tal:define="rndr field.renderer;
+                       tmpl field.widget.item_template"
+           tal:repeat="f field.children"
+           tal:attributes="class 'tab-pane active' if repeat.f.start else 'tab-pane'"
+           id="${f.oid}_toggle">
+        <div tal:replace="structure rndr(tmpl,field=f,cstruct=cstruct.get(f.name,null))"/>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+        deform.addCallback(
+          '${field.oid}',
+          function (oid) {
+              // Fix menu hrefs
+              $('#' + oid + " > li > a").each(function(){
+                $(this).attr("href", "#" + $(this).attr("id").replace("copy","toggle"));
+              });
+              $('#' + oid + " > li > a").click(function(){
+                $('#' + oid + "_title").text($(this).html());
+              });
+              $('#' + oid + "_title").text($('#' + oid + " > li > a").first().html());
+          }
+        );
+    </script>
+  </span>
+
   <div
+      tal:condition="not (hasattr(field.widget, 'tab') and field.widget.tab)"
       tal:define="rndr field.renderer;
                   tmpl field.widget.item_template"
       tal:repeat="f field.children"
