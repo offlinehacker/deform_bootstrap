@@ -226,7 +226,11 @@ class TagsManagerWidget(SelectWidget):
         if pstruct is null:
             return null
 
-        return tuple(pstruct.split(","))
+        splited = pstruct.split(",")
+        if splited[0] == u'':
+            splited = []
+
+        return tuple(splited)
 
 
 class BootstrapMappingWidget(MappingWidget):
